@@ -1,6 +1,6 @@
 package in.ranjitkokare.expensetrackerapi.service;
 
-import java.util.List;
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import in.ranjitkokare.expensetrackerapi.entity.Expense;
+import in.ranjitkokare.expensetrackerapi.exceptions.ResourceNotFoundException;
 import in.ranjitkokare.expensetrackerapi.repository.ExpenseRepository;
 
 @Service
@@ -28,7 +29,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 		if(expense.isPresent()) {//if expense is present then
 			return expense.get();//call get method on expense object
 		}
-		throw  new RuntimeException("Expense is not found for the id "+id);
+		throw  new ResourceNotFoundException("Expense is not found for the id "+id);
 	}
 
 	@Override
