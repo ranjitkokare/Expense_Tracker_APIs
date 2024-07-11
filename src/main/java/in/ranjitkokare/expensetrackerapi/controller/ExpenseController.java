@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import in.ranjitkokare.expensetrackerapi.entity.Expense;
 import in.ranjitkokare.expensetrackerapi.service.ExpenseService;
+import jakarta.validation.Valid;
 
 @RestController
 public class ExpenseController {
@@ -28,8 +29,8 @@ public class ExpenseController {
 	
 	@GetMapping("/expenses")
 	public List<Expense> getAllExpenses(Pageable page) {
-		int number = 1;
-		calculateFactorial(number);
+//		int number = 1;
+//		calculateFactorial(number);
 		return expenseService.getAllExpenses(page).toList();
 	}
 	
@@ -46,7 +47,8 @@ public class ExpenseController {
 	
 	@ResponseStatus(value = HttpStatus.CREATED)//means resource has been successfully created
 	@PostMapping("/expenses")
-	public Expense saveExpenseDetails(@RequestBody Expense expense) {
+	public Expense saveExpenseDetails(@Valid @RequestBody Expense expense) {
+		//here @valid checks while binding the request body to Bean
 		return expenseService.saveExpenseDetails(expense);
 	}
 	
