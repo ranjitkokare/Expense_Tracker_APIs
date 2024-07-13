@@ -1,6 +1,8 @@
 package in.ranjitkokare.expensetrackerapi.service;
 
 
+import java.sql.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,4 +57,33 @@ public class ExpenseServiceImpl implements ExpenseService {
 		return expenseRepo.save(existingEexpense);
 	}
 
+	//Filtering Records
+	
+	//Filter by Category
+	@Override
+	public List<Expense> readByCategory(String category, Pageable page) {//conversion to list
+		return expenseRepo.findByCategory(category, page).toList();
+	}
+
+	//Filter by Keyword
+	@Override
+	public List<Expense> readByName(String name, Pageable page) {
+		return expenseRepo.findByNameContaining(name, page).toList();
+	}
+
+	@Override
+	public List<Expense> readByDate(Date startDate, Date endDate, Pageable page) {
+		
+		if (startDate == null) {
+			startDate = new Date(0);//starting date if not provided initial date
+		}
+		if (endDate == null) {//if user has no entered endDate then 
+			endDate = new Date(System.currentTimeMillis());//todays Date will be end Date
+		}
+		return expenseRepo.findByDateBetween(startDate, endDate, page).toList();
+	}
+	
+	
+	
+	
 }

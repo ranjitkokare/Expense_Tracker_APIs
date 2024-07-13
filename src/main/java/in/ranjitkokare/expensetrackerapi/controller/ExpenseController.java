@@ -1,6 +1,7 @@
 package in.ranjitkokare.expensetrackerapi.controller;
 
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,5 +60,22 @@ public class ExpenseController {
 	
 	public int calculateFactorial(int number) {
 		return number * calculateFactorial(number - 1);
+	}
+	
+	@GetMapping("/expenses/category")
+	public List<Expense> getExpenseByCategory(@RequestParam String category, Pageable page){
+		return expenseService.readByCategory(category, page);
+	}
+	
+	@GetMapping("/expenses/name")
+	public List<Expense> getExpenseByName(@RequestParam String keyword, Pageable page){
+		return expenseService.readByName(keyword, page);
+	}
+	
+	@GetMapping("/expenses/date")
+	public List<Expense> getExpenseByDate(@RequestParam(required = false) Date startDate,//optional
+										  @RequestParam(required = false) Date endDate,
+										  Pageable page){
+		return expenseService.readByDate(startDate, endDate, page);
 	}
 }
